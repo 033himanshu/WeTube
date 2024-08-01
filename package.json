@@ -1,0 +1,15 @@
+{
+  "name": "wetube",
+  "version": "1.0.0",
+  "description": "A video sharing and watching platform",
+  "main": "index.js",
+  "scripts": {
+    "start" :  "node index.js"
+  },
+  "keywords": [
+    "javascript",
+    "backend"
+  ],
+  "author": "Himanshu Upadhyay",
+  "license": "ISC"
+}
