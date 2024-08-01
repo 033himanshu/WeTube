@@ -2,7 +2,7 @@
   "name": "wetube",
   "version": "1.0.0",
   "description": "A video sharing and watching platform",
-  "type" : "module",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js"
@@ -14,6 +14,7 @@
   "author": "Himanshu Upadhyay",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "prettier": "^3.3.3"
   }
 }
