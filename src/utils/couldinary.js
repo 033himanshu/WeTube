@@ -29,7 +29,9 @@ const uploadOnCloudinary = async (localFilePath) =>{
 
 const deleteFileFromCloudinary = async(cloudinaryFilePath, newImageLocalPath) => {
     try {
-        if(!cloudinaryFilePath) return null
+        if(!cloudinaryFilePath) {
+            throw new Error("Path Not Found")
+        }
         console.log(cloudinaryFilePath)
         let cloudinaryPath = cloudinaryFilePath.split('/').pop().split('.')[0]
         console.log(cloudinaryPath)
