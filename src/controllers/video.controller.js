@@ -5,24 +5,48 @@ import { Video } from "../models/video.model.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 
 const getAllVideos = asyncHandler(async (req, res) => {
-    let { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
-    //TODO: get all videos based on query, sort, pagination
-    //TODO: add sortBy,  SortType, query functionality
-    page = Number(page)
-    limit = Number(limit)
-    if(page<=0 || limit<=0) {
-        throw new ApiError(401, "Invalid Query")
+    let { page = 1, limit = 10, query, sortBy = 'createdAt', sortType = 'asc', userId } = req.query;
+
+    // Convert to numbers and validate
+    page = Number(page);
+    limit = Number(limit);
+    if (page <= 0 || limit <= 0) {
+        throw new ApiError(401, "Invalid Query");
     }
-    const skip = (page-1)*limit;
-    const videos = await Video.aggregate([
-        {
-            $match : { owner : userId}
-        }
-    ]).skip(skip).limit(limit)
+
+    // Define the skip value for pagination
+    const skip = (page - 1) * limit;
+
+    // Define the search criteria
+    let searchCriteria = {};
+    if (userId) {
+        searchCriteria.owner = userId;
+    }
+    if (query) {
+        searchCriteria.title = { $regex: query, $options: 'i' }; // Case-insensitive search on video title
+    }
+
+    // Define the sorting order
+    const sortOrder = sortType.toLowerCase() === 'desc' ? -1 : 1;
+    const sortCriteria = { [sortBy]: sortOrder };
+
+    // Fetch videos based on the criteria
+    const videos = await Video.find(searchCriteria)
+        .sort(sortCriteria)
+        .skip(skip)
+        .limit(limit);
+
+    // Handle the case when no videos are found
+    if (!videos.length) {
+        throw new ApiError(404, "No videos found");
+    }
+
+    // Return the videos in the response
     return res
-    .status(200)
-    .json(new ApiResponse(200, videos, "Videos Fetched Successfully"))
+        .status(200)
+        .json(new ApiResponse(200, videos, "Videos Fetched Successfully"));
 })
+
 
 const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description} = req.body
