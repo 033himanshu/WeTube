@@ -3,7 +3,7 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 import { deleteFileFromCloudinary, uploadOnCloudinary } from "../utils/couldinary.js"
 import { Video } from "../models/video.model.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
-
+import mongoose from "mongoose"
 const getAllVideos = asyncHandler(async (req, res) => {
     let { page = 1, limit = 10, query, sortBy = 'createdAt', sortType = 'asc', userId } = req.query;
 
@@ -31,15 +31,45 @@ const getAllVideos = asyncHandler(async (req, res) => {
     const sortCriteria = { [sortBy]: sortOrder };
 
     // Fetch videos based on the criteria
-    const videos = await Video.find(searchCriteria)
-        .sort(sortCriteria)
-        .skip(skip)
-        .limit(limit);
+    // const videos = await Video.find(searchCriteria)
+    //     .sort(sortCriteria)
+    //     .skip(skip)
+    //     .limit(limit)
+    //     .select(
+    //         "-isPublished"
+    //     )
+    const videos = await Video.aggregate([
+        // Match stage for filtering documents
+        { $match: {...searchCriteria, isPublished : true} },
+        
+        // Sort stage
+        { $sort: sortCriteria },
+        
+        // Skip stage for pagination
+        { $skip: skip },
+        
+        // Limit stage for pagination
+        { $limit: limit },
+        
+        // Project stage to include/exclude fields
+        { 
+            $project: {
+                _id : 1,
+                videoFile : 1,
+                thumbnail : 1,
+                title : 1,
+                description : 1,
+                duration : 1,
+                views :  1,
+                owner :1,
+            }
+        }
+    ]);
 
     // Handle the case when no videos are found
-    if (!videos.length) {
-        throw new ApiError(404, "No videos found");
-    }
+    // if (!videos.length) {
+    //     throw new ApiError(404, "No videos found");
+    // }
 
     // Return the videos in the response
     return res
@@ -57,8 +87,11 @@ const publishAVideo = asyncHandler(async (req, res) => {
         throw new ApiError(401, "Description is Required")
     }
     const owner = req.user._id
+    console.log(title)
+    console.log(description)
+    console.log(req.files)
     // TODO: get video, upload to cloudinary, create video
-    const videoLocalPath = req.file?.videoFile?.[0]?.path
+    const videoLocalPath = req.files?.videoFile?.[0]?.path
     if(!videoLocalPath){
         throw new ApiError(401, "Video is required")
     }
@@ -95,13 +128,13 @@ const publishAVideo = asyncHandler(async (req, res) => {
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: get video by id
-    const video = await Video.findById(videoId)
+    const video = await Video.findById(videoId).select("-isPublished -createdAt -updatedAt")
     if(!video){
         throw new ApiError(401, "Invalid Video Id")
     }
-    if(!video.isPublished && video.owner != req.user._id ){
-        throw new ApiError(401, "User Don't Have Access to this video file")
-    }
+    // if(!video.isPublished && video.owner != req.user._id ){
+    //     throw new ApiError(401, "User Don't Have Access to this video file")
+    // }
     return res
     .status(200)
     .json(new ApiResponse(200, video, "video fetched"))
@@ -110,16 +143,17 @@ const getVideoById = asyncHandler(async (req, res) => {
 const updateVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: update video details like title, description, thumbnail
-    const {title, description} = req.body
+    const { title, description} = req.body
+    console.log(req.body)
+    if(!title || !description){
+        throw new ApiError(400, "Title and Description is required")
+    }
     const video = await Video.findById(videoId)
     if(!video){
-        throw new ApiError(401, "Invalid Video Id")
+        throw new ApiError(404, "Invalid Video Id")
     }
-    if(video.owner != req.user._id){
-        throw new ApiError(401, "User don't have access to update this file")
-    }
-    if(!title || !description){
-        throw new ApiError(401, "Title and Description is required")
+    if(!video.owner.equals(new mongoose.Types.ObjectId(req.user._id))){
+        throw new ApiError(403, "User don't have access to update this file")
     }
     const updatedVideo = await Video.findByIdAndUpdate(
         videoId,
@@ -139,9 +173,9 @@ const updateVideo = asyncHandler(async (req, res) => {
 
 const updateThumbnail = asyncHandler(async (req, res) => {
     const { videoId } = req.params
-    const newThumbnailLocalPath = req.file?.thumbnail?.path
+    const newThumbnailLocalPath = req.file?.path
     const video = await Video.findById(videoId)
-    if(video.owner != req.user._id){
+    if(!video.owner.equals(new mongoose.Types.ObjectId(req.user._id))){
         try{
             await deleteFileFromCloudinary("", newThumbnailLocalPath)
         }catch(e){
@@ -154,7 +188,8 @@ const updateThumbnail = asyncHandler(async (req, res) => {
     const deleteFromCloudinaryResponse = await deleteFileFromCloudinary(oldThumbnailURL, newThumbnailLocalPath)
     console.log(deleteFromCloudinaryResponse)
     const newThumbnailPath = await uploadOnCloudinary(newThumbnailLocalPath)
-    if(!newThumbnailPath.url){
+    console.log(newThumbnailLocalPath)
+    if(!newThumbnailPath || !newThumbnailPath.url){
         throw new ApiError(501, "Error while uploading the new Thumbnail")
     }
     const updatedThumbnail = await Video.findByIdAndUpdate(
@@ -176,10 +211,13 @@ const updateThumbnail = asyncHandler(async (req, res) => {
 const deleteVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     const video = await Video.findById(videoId)
-    if(video.owner != req.user._id){
+    if(!video.owner.equals(new mongoose.Types.ObjectId(req.user._id))){
         throw new ApiError(401, "User don't have access to delete this video")
     }
-    await deleteFileFromCloudinary(video.url)
+    console.log(video.videoFile)
+    console.log(video.thumbnail)
+    await deleteFileFromCloudinary(video.videoFile)
+    await deleteFileFromCloudinary(video.thumbnail)
     await Video.findByIdAndDelete(videoId)
     return res
     .status(200)
@@ -189,7 +227,7 @@ const deleteVideo = asyncHandler(async (req, res) => {
 const togglePublishStatus = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     const video = await Video.findById(videoId)
-    if(video.owner != req.user._id){
+    if(!video.owner.equals(new mongoose.Types.ObjectId(req.user._id))){
         throw new ApiError(401, "User don't have access to change Pulish Status of this video")
     }
     const updatedVideo = await Video.findByIdAndUpdate(

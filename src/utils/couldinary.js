@@ -35,9 +35,11 @@ const deleteFileFromCloudinary = async(cloudinaryFilePath, newImageLocalPath) =>
         console.log(cloudinaryFilePath)
         let cloudinaryPath = cloudinaryFilePath.split('/').pop().split('.')[0]
         console.log(cloudinaryPath)
-        const response =  await cloudinary.api.delete_resources([cloudinaryPath], { type: 'upload', resource_type: 'image' })
-        console.log("file deleted successfully", response)
-        return response
+        const imageFileResponse =  await cloudinary.api.delete_resources([cloudinaryPath], { type: 'upload', resource_type: 'image' })
+        const videoFileResponse =  await cloudinary.api.delete_resources([cloudinaryPath], { type: 'upload', resource_type: 'video' })
+        console.log("file deleted successfully", imageFileResponse)
+        console.log("file deleted successfully", videoFileResponse)
+        return {imageFileResponse, videoFileResponse}
     } catch (error) {
         if(newImageLocalPath){
             fs.unlinkSync(newImageLocalPath)

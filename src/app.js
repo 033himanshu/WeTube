@@ -18,7 +18,6 @@ app.use(cookieParser())
 
 const apiVersion = "/api/v1"
 
-//routes
 import {
     commentRouter,
     dashboardRouter,
@@ -32,10 +31,9 @@ import {
 } from "./routes/index.js"
 
 app.use(`${apiVersion}/users`, userRouter)
-//https://localhost:8000/api/v1/users/register
 app.use(`${apiVersion}/video`, videoRouter)
 app.use(`${apiVersion}/tweet`, tweetRouter)
-app.use(`${apiVersion}/subscribtion`, subscriptionRouter)
+app.use(`${apiVersion}/subscription`, subscriptionRouter)
 app.use(`${apiVersion}/like`, likeRouter)
 app.use(`${apiVersion}/comment`, commentRouter)
 app.use(`${apiVersion}/dashboard`, dashboardRouter)
