@@ -28,7 +28,7 @@ const toggleSubscription = asyncHandler(async (req, res) => {
 
 // controller to return subscriber list of a channel
 const getUserChannelSubscribers = asyncHandler(async (req, res) => {
-    const {channelId} = req.user?._id
+    const channelId = req.user?._id
     // TODO : do aggregation and find All Subscribers
     // const channel = await User.findById(channelId)
     // if(!channel){
@@ -57,7 +57,7 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
             $project: {
                 _id: '$subscriberDetails._id', // Include subscriber's name
                 avatar: '$subscriberDetails.avatar', // Include subscriber's avatar
-                username : 'subscriberDetails.username'
+                username : '$subscriberDetails.username'
             }
         }
     ])

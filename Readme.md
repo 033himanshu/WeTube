@@ -1,4 +1,3 @@
-This is a Mern Stack Project, 
-Its like youtube to watch and share videos
- 
+Backend for Video sharing and watching platform
+References : chai and code(Hitesh Chaudary Sir)
 - [Model link] (https://app.eraser.io/workspace/YtPqZ1VogxGy1jzIDkzj)

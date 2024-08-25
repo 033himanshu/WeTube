@@ -1,0 +1,1036 @@
+{
+	"info": {
+		"_postman_id": "1d8afd31-1aca-4c93-a7b6-a028a4a7c4f1",
+		"name": "weTube Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "16110894"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "four@four.in",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "four@four.in",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "four",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/PC/Desktop/react/backend/files/fourAvatar.jpeg"
+								},
+								{
+									"key": "fullName",
+									"value": "four",
+									"type": "text"
+								},
+								{
+									"key": "coverImage",
+									"type": "file",
+									"src": "/C:/Users/PC/Desktop/react/backend/files/fourCover.jpeg"
+								}
+							]
+						},
+						"url": "{{server}}/users/register"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "two@two.in",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "two@two.in",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "username",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{server}}/users/login"
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{server}}/users/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "refreshToken",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/users/refresh-token",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"refresh-token"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateAccountInfo",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "fullName",
+									"value": "newFullName",
+									"type": "text"
+								},
+								{
+									"key": "oldPassword",
+									"value": "somePassword",
+									"type": "text"
+								},
+								{
+									"key": "newPassword",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{server}}/users/update-account-info"
+					},
+					"response": []
+				},
+				{
+					"name": "getCurrentUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/users/current-user"
+					},
+					"response": []
+				},
+				{
+					"name": "getUserChannelProfile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/users/channel/:username",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"channel",
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "username"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getWatchHistory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/users/watch-history"
+					},
+					"response": []
+				},
+				{
+					"name": "updateAvatar",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/PC/Desktop/51ZDq06qU8L.jpg"
+								}
+							]
+						},
+						"url": "{{server}}/users/update-avatar"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCoverImage",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": "{{server}}/users/delete-cover-image"
+					},
+					"response": []
+				},
+				{
+					"name": "updateCoverImage",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "coverImage",
+									"type": "file",
+									"src": "/C:/Users/PC/Desktop/iskcon-krishna-and-radha-a6wprntfeqfjwyke.jpg"
+								}
+							]
+						},
+						"url": "{{server}}/users/update-cover-image"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "video",
+			"item": [
+				{
+					"name": "getVideo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/video/:videoId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"video",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "66c9bae064d3f4038ceaa8a8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteVideo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/video/:videoId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"video",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "66c9d31d6fb7b13d795ac244"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateVideo",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "Big Bukk",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Big Buck is happy",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/video/:videoId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"video",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "66c9bae064d3f4038ceaa8a8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateThumbnail",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": "/C:/Users/PC/Desktop/react/backend/files/big buck.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/video/update-thumbnail/:videoId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"video",
+								"update-thumbnail",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "66c9bae064d3f4038ceaa8a8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllVideos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/video/"
+					},
+					"response": []
+				},
+				{
+					"name": "publishVideo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Dentist",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Dentist is working",
+									"type": "text"
+								},
+								{
+									"key": "videoFile",
+									"type": "file",
+									"src": "/C:/Users/PC/Desktop/react/backend/files/dentist.mp4"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": "/C:/Users/PC/Desktop/react/backend/files/dentist.png"
+								}
+							]
+						},
+						"url": "{{server}}/video/"
+					},
+					"response": []
+				},
+				{
+					"name": "togglePublish",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/video/toggle/publish/:videoId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"video",
+								"toggle",
+								"publish",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "66c9d491584e675233540673"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tweet",
+			"item": [
+				{
+					"name": "createTweet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "content",
+									"value": "I am two doing tweet",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{server}}/tweet/"
+					},
+					"response": []
+				},
+				{
+					"name": "updateTweet",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "content",
+									"value": "updated content",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/tweet/:tweetId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"tweet",
+								":tweetId"
+							],
+							"variable": [
+								{
+									"key": "tweetId",
+									"value": "66ca08b32a4dfae13198f3e1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTweet",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/tweet/:tweetId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"tweet",
+								":tweetId"
+							],
+							"variable": [
+								{
+									"key": "tweetId",
+									"value": "66ca08b32a4dfae13198f3e1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserTweet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/tweet/user/:userId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"tweet",
+								"user",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "66c9b13e0eb60bef734c0695"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "subscription",
+			"item": [
+				{
+					"name": "getSubscribedChannels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/subscription/c/"
+					},
+					"response": []
+				},
+				{
+					"name": "toggleSubscription",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/subscription/c/:channelId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"subscription",
+								"c",
+								":channelId"
+							],
+							"variable": [
+								{
+									"key": "channelId",
+									"value": "66c9b1d40eb60bef734c069d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserChannelSubscribers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/subscription/u/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "playlist",
+			"item": [
+				{
+					"name": "getPlaylistById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/playlist/:playlistId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"playlist",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "playlistId",
+									"value": "66caf2e6c6691ea483c73392"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePlaylist",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "updatedName",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "updated Description",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/playlist/:playlistId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"playlist",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "playlistId",
+									"value": "66caf2e6c6691ea483c73392"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePlaylist",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/playlist/:playlistId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"playlist",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "playlistId",
+									"value": "66caf2e6c6691ea483c73392"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addVideoToPlaylist",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/playlist/add/:videoId/:playlistId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"playlist",
+								"add",
+								":videoId",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "66cae41280851745520449c7"
+								},
+								{
+									"key": "playlistId",
+									"value": "66caf2e6c6691ea483c73392"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteVideoFromPlaylist",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/playlist/remove/:videoId/:playlistId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"playlist",
+								"remove",
+								":videoId",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "66c9d491584e675233540673"
+								},
+								{
+									"key": "playlistId",
+									"value": "66caf2e6c6691ea483c73392"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserPlaylists",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/playlist/user",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"playlist",
+								"user"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createPlaylist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "firstPlaylist",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "some videos are there",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{server}}/playlist/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "likes",
+			"item": [
+				{
+					"name": "getLikedVideos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/like/videos"
+					},
+					"response": []
+				},
+				{
+					"name": "toggleCommentLike",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/like/toggle/c/:commentId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"like",
+								"toggle",
+								"c",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "commentId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "toggleTweetLike",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{server}}/like/toggle/t/:tweetId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"like",
+								"toggle",
+								"t",
+								":tweetId"
+							],
+							"variable": [
+								{
+									"key": "tweetId",
+									"value": "66cae53a80851745520449e5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "toggleVideoLike",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/like/toggle/v/:videoId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"like",
+								"toggle",
+								"v",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "66c9d491584e675233540673"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comment",
+			"item": [
+				{
+					"name": "getVideoComments",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "addComment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "content",
+									"value": "my content",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/comment/video/:videoId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"comment",
+								"video",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "66c9d491584e675233540673"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateComment",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "content",
+									"value": "updated comment",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/comment//comment/:commentId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"comment",
+								"",
+								"comment",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "commentId",
+									"value": "66cb1175c9f92d880e82947d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteComment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/comment//comment/:commentId",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"comment",
+								"",
+								"comment",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "commentId",
+									"value": "66cb1534384fa9c30d5eb1dc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "dashboard",
+			"item": [
+				{
+					"name": "getChannelStats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/dashboard/stats"
+					},
+					"response": []
+				},
+				{
+					"name": "getChannelVideos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/dashboard/videos"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "healthCheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{server}}/healthCheck"
+			},
+			"response": []
+		}
+	]
+}

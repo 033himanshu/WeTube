@@ -1,12 +1,32 @@
 import { Like } from "../models/like.model.js";
+import { Tweet } from "../models/tweet.model.js";
+import { Video } from "../models/video.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {ApiError} from "../utils/ApiError.js"
+import mongoose from "mongoose";
 const getLikedVideos =  asyncHandler(async(req, res)=>{
-    const videos = await Like.find(
-        {likedBy: req.user?._id},
-        {video : {$exists : true}},
-    )
+    console.log("hello...")
+    const likedBy  = new mongoose.Types.ObjectId(req.user._id)
+    const videos = await Like.aggregate([
+        {
+            $match: {
+                likedBy
+            }
+        },
+        {
+            $project: {
+                video: {
+                    $cond: [{ $ifNull: ["$video", false] }, "$video", null]
+                }
+            }
+        },
+        {
+            $match: {
+                video: { $ne: null }
+            }
+        }
+    ]);
     return res
     .status(200)
     .json(new ApiResponse(200, videos, "Liked videos fetched"))
